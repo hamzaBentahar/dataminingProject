@@ -3,6 +3,7 @@ library(data.table)
 library(tidytext)
 library(corrplot)
 library(wordcloud)
+library(ggdendro)
 
 us_data <- as.data.frame.matrix(fread("datamining project/data/USvideos.csv", nrows = 5000)[,"Location":="US"])
 merged_us <- aggregate( .~ title, us_data, function(x) toString(unique(x)))
@@ -38,3 +39,10 @@ ggplot(videos[,.N,by=channel_title][order(-N)][1:10],aes(reorder(channel_title,-
   xlab(NULL)+ylab(NULL)+coord_flip()
 videos <- as.data.table(merged_us)
 #corrplot.mixed(corr = cor(videos[,c("category_id","views","likes","dislikes","comment_count"),with=F]))
+
+videos[,"Percentage_Likes":=round(100*(likes)/sum(as.numeric(views),na.rm = T),digits = 4)]
+videos[,"Percentage_Disikes":=round(100*(dislikes)/sum(as.numeric(views),na.rm = T),digits = 4)]
+videos[,"Percentage_comments":=round(100*(comment_count)/sum(as.numeric(views),na.rm = T),digits = 4)]
+dista <- dist(x = videos)
+cluster <- hclust(dista,method = "ward.D")
+ggdendrogram(cluster,rotate = T)
