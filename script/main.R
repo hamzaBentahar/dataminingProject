@@ -4,21 +4,21 @@ library(tidytext)
 library(corrplot)
 library(wordcloud)
 
-us_data <- as.data.frame.matrix(fread("datamining project/data/USvideos.csv", nrows = 16000)[,"Location":="US"])
+us_data <- as.data.frame.matrix(fread("datamining project/data/USvideos.csv", nrows = 5000)[,"Location":="US"])
 merged_us <- aggregate( .~ title, us_data, function(x) toString(unique(x)))
 merged_us$trending_days <- strsplit(merged_us$trending_date, ",")
 for(row in 1:nrow(merged_us)){
   merged_us[row, "trending_days"] <- length(unlist(merged_us[row, "trending_days"]))
 }
 
-fr_data <- as.data.frame.matrix(fread("datamining project/data/FRvideos.csv", nrows = 16000)[,"Location":="FR"])
+fr_data <- as.data.frame.matrix(fread("datamining project/data/FRvideos.csv", nrows = 5000)[,"Location":="FR"])
 merged_fr <- aggregate( .~ title, fr_data, function(x) toString(unique(x)))
 merged_fr$trending_days <- strsplit(merged_fr$trending_date, ",")
 for(row in 1:nrow(merged_fr)){
   merged_fr[row, "trending_days"] <- length(unlist(merged_fr[row, "trending_days"]))
 }
 
-gb_data <- as.data.frame.matrix(fread("datamining project/data/GBvideos.csv", nrows = 16000)[,"Location":="GB"])
+gb_data <- as.data.frame.matrix(fread("datamining project/data/GBvideos.csv", nrows = 5000)[,"Location":="GB"])
 merged_gb <- aggregate( .~ title, gb_data, function(x) toString(unique(x)))
 merged_gb$trending_days <- strsplit(merged_gb$trending_date, ",")
 for(row in 1:nrow(merged_gb)){
