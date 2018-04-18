@@ -45,4 +45,4 @@ videos[,"Percentage_Disikes":=round(100*(dislikes)/sum(as.numeric(views),na.rm =
 videos[,"Percentage_comments":=round(100*(comment_count)/sum(as.numeric(views),na.rm = T),digits = 4)]
 dista <- dist(x = videos)
 cluster <- hclust(dista,method = "ward.D")
-ggdendrogram(cluster,rotate = T)
+ggdendrogram(cluster)
